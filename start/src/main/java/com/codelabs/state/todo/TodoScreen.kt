@@ -27,6 +27,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -45,7 +46,12 @@ import kotlin.random.Random
  * @param modifier modifier for this element
  */
 @Composable
-fun TodoRow(todo: TodoItem, onItemClicked: (TodoItem) -> Unit, modifier: Modifier = Modifier) {
+fun TodoRow(
+    todo: TodoItem,
+    onItemClicked: (TodoItem) -> Unit,
+    modifier: Modifier = Modifier,
+    iconAlpha: Float = remember(todo.id) { randomTint() }
+) {
     Row(
         modifier = modifier
             .clickable { onItemClicked(todo) }
@@ -55,6 +61,7 @@ fun TodoRow(todo: TodoItem, onItemClicked: (TodoItem) -> Unit, modifier: Modifie
         Text(todo.task)
         Icon(
             imageVector = todo.icon.imageVector,
+            tint = MaterialTheme.colors.onSurface.copy(alpha = iconAlpha),
             contentDescription = stringResource(id = todo.icon.contentDescription)
         )
     }
@@ -98,6 +105,26 @@ fun TodoScreen(
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 private fun randomTint(): Float {
     return Random.nextFloat().coerceIn(0.3f, 0.9f)

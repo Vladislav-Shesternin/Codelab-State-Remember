@@ -34,7 +34,10 @@ data class TodoItem(
     val id: UUID = UUID.randomUUID()
 )
 
-enum class TodoIcon(val imageVector: ImageVector, @StringRes val contentDescription: Int) {
+enum class TodoIcon(
+    val imageVector: ImageVector,
+    @StringRes val contentDescription: Int
+) {
     Square(Icons.Default.CropSquare, R.string.cd_expand),
     Done(Icons.Default.Done, R.string.cd_done),
     Event(Icons.Default.Event, R.string.cd_event),
