@@ -226,6 +226,12 @@ fun TodoInputText(
     )
 }
 
+@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Composable
+fun ShowInputText() {
+    TodoInputText(text = "Hello", onTextChange = {})
+}
+
 /**
  * Styled button for [TodoScreen]
  *
