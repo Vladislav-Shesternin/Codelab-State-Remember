@@ -16,24 +16,25 @@
 
 package com.codelabs.state.todo
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
 class TodoViewModel : ViewModel() {
 
     // state: todoItems
-    private var _todoItems = MutableLiveData(listOf<TodoItem>())
-    val todoItems: LiveData<List<TodoItem>> = _todoItems
+    var todoItems: List<TodoItem> by mutableStateOf(listOf())
+        private set
 
     // event: addItem
     fun addItem(item: TodoItem) {
-        _todoItems.value = _todoItems.value!! + listOf(item)
+        todoItems = todoItems + listOf(item)
     }
 
     // event: removeItem
     fun removeItem(item: TodoItem) {
-        _todoItems.value = _todoItems.value!!.toMutableList().also {
+        todoItems = todoItems.toMutableList().also {
             it.remove(item)
         }
     }

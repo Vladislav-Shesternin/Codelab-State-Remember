@@ -52,7 +52,9 @@ fun TodoInputTextField(
 }
 
 @Composable
-fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
+fun TodoItemEntryInput(
+    onItemComplete: (TodoItem) -> Unit,
+) {
     val (text, setText) = remember { mutableStateOf("") }
     val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default) }
     val iconsVisible = text.isNotBlank()
@@ -61,6 +63,25 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
         setIcon(TodoIcon.Default)
         setText("")
     }
+    TodoItemInput(
+        text = text,
+        onTextChange = setText,
+        icon = icon,
+        onIconChange = setIcon,
+        submit = submit,
+        iconsVisible = iconsVisible
+    )
+}
+
+@Composable
+fun TodoItemInput(
+    text: String,
+    onTextChange: (String) -> Unit,
+    icon: TodoIcon,
+    onIconChange: (TodoIcon) -> Unit,
+    submit: () -> Unit,
+    iconsVisible: Boolean,
+) {
     Column {
         Row(
             modifier = Modifier
@@ -69,7 +90,7 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
         ) {
             TodoInputTextField(
                 text = text,
-                onTextChange = { setText(it) },
+                onTextChange = { onTextChange(it) },
                 modifier = Modifier
                     .weight(1F)
                     .padding(end = 8.dp),
@@ -85,7 +106,7 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
         if (iconsVisible) {
             AnimatedIconRow(
                 icon = icon,
-                onIconChange = { setIcon(it) },
+                onIconChange = { onIconChange(it) },
                 modifier = Modifier
                     .padding(top = 8.dp)
             )
@@ -142,7 +163,7 @@ fun TodoScreen(
             elevate = true,
             modifier = Modifier.fillMaxWidth()
         ) {
-            TodoItemInput(
+            TodoItemEntryInput(
                 onItemComplete = onAddItem
             )
         }
@@ -171,6 +192,7 @@ fun TodoScreen(
     }
 }
 
+
 private fun randomTint(): Float {
     return Random.nextFloat().coerceIn(0.3f, 0.9f)
 }
@@ -178,7 +200,7 @@ private fun randomTint(): Float {
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
 fun PreviewTodoItemInput() {
-    TodoItemInput(onItemComplete = {})
+    TodoItemEntryInput(onItemComplete = {})
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
